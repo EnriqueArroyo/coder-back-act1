@@ -1,0 +1,16 @@
+[
+  {
+    "id": 1,
+    "title": "Camisa",
+    "description": "Algodón 100%",
+    "price": 25,
+    "code": "CAM001",
+    "status": true,
+    "stock": 5,
+    "category": "Ropa",
+    "thumbnails": [
+      "/img/camisa1.png",
+      "/img/camisa2.png"
+    ]
+  }
+]
