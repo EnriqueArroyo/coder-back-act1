@@ -1,16 +1,41 @@
 [
   {
-    "id": 1,
-    "title": "Camisa",
-    "description": "Algodón 100%",
-    "price": 25,
-    "code": "CAM001",
+    "id": 2,
+    "title": "Test",
+    "description": "test",
+    "price": 2,
+    "code": "test",
     "status": true,
-    "stock": 5,
-    "category": "Ropa",
+    "stock": 2,
+    "category": "test",
     "thumbnails": [
-      "/img/camisa1.png",
-      "/img/camisa2.png"
+      "2"
+    ]
+  },
+  {
+    "id": 8,
+    "title": "asd",
+    "description": "asd",
+    "price": 123,
+    "code": "asd",
+    "status": true,
+    "stock": 123,
+    "category": "123",
+    "thumbnails": [
+      "asd"
+    ]
+  },
+  {
+    "id": 9,
+    "title": "asdas",
+    "description": "asdas",
+    "price": 1221,
+    "code": "asdas",
+    "status": true,
+    "stock": 1212,
+    "category": "ada",
+    "thumbnails": [
+      "asdas"
     ]
   }
 ]

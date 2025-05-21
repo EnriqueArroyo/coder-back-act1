@@ -1,24 +1,27 @@
 {
   "name": "coder-back-act1",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Ejercicio de Coder House Backend Actividad 1",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+  "keywords": [],
+  "homepage": "https://github.com/EnriqueArroyo/coder-back-act1#readme",
+  "bugs": {
+    "url": "https://github.com/EnriqueArroyo/coder-back-act1/issues"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/EnriqueArroyo/coder-back-act1.git"
   },
-  "keywords": [],
-  "author": "",
   "license": "ISC",
+  "author": "",
   "type": "commonjs",
-  "bugs": {
-    "url": "https://github.com/EnriqueArroyo/coder-back-act1/issues"
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "homepage": "https://github.com/EnriqueArroyo/coder-back-act1#readme",
   "dependencies": {
-    "express": "^5.1.0"
-  }
+    "express": "^5.1.0",
+    "express-handlebars": "^8.0.2",
+    "socket.io": "^4.8.1"
+  },
+  "devDependencies": {}
 }

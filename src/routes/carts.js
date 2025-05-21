@@ -14,7 +14,7 @@ router.post("/", async (req, res) => {
   }
 });
 
-// GET /api/carts
+
 router.get("/", async (req, res) => {
   try {
     const carts = await cm.getCarts();
@@ -24,7 +24,7 @@ router.get("/", async (req, res) => {
   }
 });
 
-// GET /api/carts/:cid
+
 router.get("/:cid", async (req, res) => {
   const cid = parseInt(req.params.cid);
   try {
@@ -35,7 +35,7 @@ router.get("/:cid", async (req, res) => {
   }
 });
 
-// POST /api/carts/:cid/product/:pid
+
 router.post("/:cid/product/:pid", async (req, res) => {
   const cid = parseInt(req.params.cid);
   const pid = parseInt(req.params.pid);

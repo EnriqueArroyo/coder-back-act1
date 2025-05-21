@@ -5,7 +5,7 @@ const pm = new ProductManager("./data/products.json");
 
 const router = express.Router(); 
 
-// GET /api/products 
+
 router.get("/", async (req, res) => {
   try {
     const products = await pm.getProducts();
@@ -15,7 +15,7 @@ router.get("/", async (req, res) => {
   }
 });
 
-// GET /api/products/:pid 
+
 router.get("/:pid", async (req, res) => {
   const pid = parseInt(req.params.pid);
   try {
@@ -27,9 +27,13 @@ router.get("/:pid", async (req, res) => {
 });
 
 
-router.post("/", async (req, res) => { // POST /api/products 
+router.post("/", async (req, res) => {
   try {
     const newProduct = await pm.addProduct(req.body);
+    const io = req.app.get("io");
+    const allProducts = await pm.getProducts();
+    io.emit("productsUpdated", allProducts);
+
     res.status(201).json({ product: newProduct });
   } catch (err) {
     res.status(400).json({ error: err.message });
@@ -41,18 +45,26 @@ router.put("/:pid", async (req, res) => {
   const pid = parseInt(req.params.pid);
   try {
     const updated = await pm.updateProduct(pid, req.body);
+
+    const io = req.app.get("io");
+    const allProducts = await pm.getProducts();
+    io.emit("productsUpdated", allProducts);
+
     res.json({ product: updated });
   } catch (err) {
     res.status(404).json({ error: err.message });
   }
 });
 
-// DELETE /api/products/:pid 
 router.delete("/:pid", async (req, res) => {
   const pid = parseInt(req.params.pid);
   try {
-    await pm.deleteProduct(pid);
-    res.status(204).end();
+    const deleted = await pm.deleteProduct(pid);
+    const io = req.app.get("io");
+    const allProducts = await pm.getProducts();
+    io.emit("productsUpdated", allProducts);
+
+    res.status(200).json({ deleted });
   } catch (err) {
     res.status(404).json({ error: err.message });
   }
