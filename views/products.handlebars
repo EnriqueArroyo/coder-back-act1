@@ -1,0 +1,47 @@
+{{!< main}}
+
+<h1>Catálogo de Productos</h1>
+
+<div class="cart-link">
+  <a href="/carts/{{cartId}}" class="btn">Ver mi carrito 🛒</a>
+</div>
+
+<div id="products" data-cart-id="{{cartId}}">
+  <table>
+    <thead>
+      <tr>
+        <th>Título</th>
+        <th>Precio</th>
+        <th>Categoría</th>
+        <th>Detalle</th>
+        <th>Agregar</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each prods}}
+        <tr data-pid="{{this._id}}">
+          <td>{{this.title}}</td>
+          <td>${{this.price}}</td>
+          <td>{{this.category}}</td>
+          <td><a href="/products/{{this._id}}">Ver</a></td>
+          <td>
+            <button class="add" data-pid="{{this._id}}">+</button>
+          </td>
+        </tr>
+      {{/each}}
+    </tbody>
+  </table>
+
+  <div class="pagination">
+    {{#if pagination.prevLink}}
+      <a href="{{pagination.prevLink}}">« Anterior</a>
+    {{/if}}
+    <span>Página {{pagination.page}} de {{pagination.totalPages}}</span>
+    {{#if pagination.nextLink}}
+      <a href="{{pagination.nextLink}}">Siguiente »</a>
+    {{/if}}
+  </div>
+</div>
+
+<script src="/socket.io/socket.io.js"></script>
+<script src="/js/home.js"></script>
