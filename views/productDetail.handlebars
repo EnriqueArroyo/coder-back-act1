@@ -1,0 +1,28 @@
+{{!< main}}
+
+<h1>{{prod.title}}</h1>
+
+<div style="margin-top:1rem;">
+  <button onclick="history.back()" class="btn">← Volver</button>
+  <a href="/carts/{{cartId}}" class="btn">Ver mi carrito 🛒</a>
+</div>
+
+<p>{{prod.description}}</p>
+<ul>
+  <li><strong>Precio:</strong> ${{prod.price}}</li>
+  <li><strong>Código:</strong> {{prod.code}}</li>
+  <li><strong>Stock:</strong> {{prod.stock}}</li>
+  <li><strong>Categoría:</strong> {{prod.category}}</li>
+</ul>
+
+<button id="addToCart" class="btn">Agregar al carrito</button>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => { const btn =
+  document.getElementById('addToCart'); const cartId = '{{cartId}}';
+  btn.addEventListener('click', () => { fetch(`/api/carts/${cartId}/product/{{prod._id}}`,
+  { method: 'POST' }) .then(r => r.json()) .then(json => { if (json.status ===
+  'success') { alert('Producto agregado al carrito'); } else { alert('Error: ' +
+  (json.error || 'No se agregó')); } }) .catch(() => alert('Error al conectar al
+  servidor')); }); });
+</script>

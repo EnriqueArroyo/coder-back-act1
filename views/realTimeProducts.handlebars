@@ -1,85 +1,73 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-  <meta charset="UTF-8" />
-  <link rel="stylesheet" href="/style.css">
-  <title>Coder House Act 2</title>
-</head>
-<body>
-  <h1>Coder House Act 2</h1>
-  <h2>Lista de Productos</h2>
-  <ul id="productList">
-    {{#each products}}
-      <li data-id="{{this.id}}">
-        {{this.title}} — ${{this.price}} — {{this.category}}
-        <button class="del" data-id="{{this.id}}">Borrar</button>
-      </li>
-    {{/each}}
-  </ul>
-  <h2>Crear producto</h2>
-  <form id="addForm">
-    <input name="title" placeholder="Título" required />
-    <input name="description" placeholder="Descripción" required />
-    <input name="code" placeholder="Código" required />
-    <input name="price" placeholder="Precio" type="number" required />
-    <input name="stock" placeholder="Stock" type="number" required />
-    <input name="category" placeholder="Categoría" required />
-    <label>
-      Activo?
-      <input name="status" type="checkbox" checked />
-    </label>
-    <input name="thumbnails" placeholder="Thumbnails (separar con comas)" />
-    <button type="submit">Crear</button>
-  </form>
 
-  <script src="/socket.io/socket.io.js"></script>
-  <script>
+{{!< main}}
+
+<h1>Admin: Productos en Tiempo Real</h1>
+
+<ul id="productList">
+  {{#each products}}
+    <li data-id="{{this._id}}">
+      {{this.title}} — ${{this.price}} — {{this.category}}
+      <button class="del" data-id="{{this._id}}">Borrar</button>
+    </li>
+  {{/each}}
+</ul>
+
+<h2>Crear producto</h2>
+<form id="addForm">
+  <input name="title" placeholder="Título" required>
+  <input name="description" placeholder="Descripción" required>
+  <input name="code" placeholder="Código" required>
+  <input name="price" placeholder="Precio" type="number" required>
+  <input name="stock" placeholder="Stock" type="number" required>
+  <input name="category" placeholder="Categoría" required>
+  <input name="thumbnails" placeholder="Thumbnails (separar con comas)">
+  <button type="submit">Crear</button>
+</form>
+
+<script src="/socket.io/socket.io.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
     const socket = io();
+    socket.on('connect', () => console.log('Socket conectado', socket.id));
+
+
     document.getElementById('addForm').addEventListener('submit', e => {
       e.preventDefault();
       const f = e.target;
-
       const newProd = {
         title:       f.title.value.trim(),
         description: f.description.value.trim(),
         code:        f.code.value.trim(),
-        price:       parseFloat(f.price.value),
-        status:      f.status.checked,
-        stock:       parseInt(f.stock.value),
+        price:       Number(f.price.value),
+        stock:       Number(f.stock.value),
         category:    f.category.value.trim(),
-        thumbnails:  f.thumbnails.value
-                         .split(',')
-                         .map(s => s.trim())
-                         .filter(s => s)
+        thumbnails:  f.thumbnails.value.split(',').map(x=>x.trim()).filter(x=>x)
       };
-
       socket.emit('newProduct', newProd);
       f.reset();
     });
 
+
     document.getElementById('productList').addEventListener('click', e => {
       if (!e.target.classList.contains('del')) return;
-      const id = parseInt(e.target.dataset.id);
-      socket.emit('deleteProduct', id);
+      socket.emit('deleteProduct', e.target.dataset.id);
     });
+
 
     socket.on('productsUpdated', products => {
       const ul = document.getElementById('productList');
       ul.innerHTML = '';
       products.forEach(p => {
         const li = document.createElement('li');
-        li.dataset.id = p.id;
+        li.dataset.id = p._id;
         li.innerHTML = `
-          ${p.title} — $${p.price}
-          <button class="del" data-id="${p.id}">Borrar</button>
+          ${p.title} — $${p.price} — ${p.category}
+          <button class="del" data-id="${p._id}">Borrar</button>
         `;
-        ul.appendChild(li);
+        ul.append(li);
       });
     });
 
-    socket.on('error', msg => {
-      alert('Error: ' + msg);
-    });
-  </script>
-</body>
-</html>
+    socket.on('error', msg => alert('Error: '+msg));
+  });
+</script>

@@ -1,0 +1,46 @@
+{{!< main}}
+
+<h1>Carrito {{cart._id}}</h1>
+
+<div style="margin-bottom:1rem;">
+
+  <button onclick="history.back()" class="btn">← Volver</button>
+
+  <a href="/products" class="btn">Catálogo 🛍️</a>
+</div>
+
+{{#if cart.products.length}}
+  <table>
+    <thead>
+      <tr>
+        <th>Producto</th>
+        <th>Cantidad</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each cart.products}}
+        <tr data-pid="{{this.product._id}}">
+          <td>{{this.product.title}}</td>
+          <td>
+            <input
+              type="number"
+              class="qty"
+              value="{{this.quantity}}"
+              min="1"
+            />
+          </td>
+          <td>
+            <button class="update">✔</button>
+            <button class="remove">🗑</button>
+          </td>
+        </tr>
+      {{/each}}
+    </tbody>
+  </table>
+  <button id="emptyCart" class="btn" style="margin-top:1rem;">Vaciar carrito</button>
+{{else}}
+  <p>Tu carrito está vacío.</p>
+{{/if}}
+
+<script src="/js/cart.js"></script>
